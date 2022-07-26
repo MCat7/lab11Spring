@@ -3,17 +3,16 @@ package by.iba.springproject.controller;
 import by.iba.springproject.form.UserForm;
 import by.iba.springproject.model.User;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Slf4j
 @Controller
 public class MainController {
     private static List<User> users = new ArrayList<User>();
@@ -28,21 +27,21 @@ public class MainController {
     @Value("${error.message}")
     private String errorMessage;
 
-    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/", "/index"})
     public ModelAndView index(Model model) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index");
         model.addAttribute("message", message);
         return modelAndView;
     }
-    @RequestMapping(value = {"/users"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/users"})
     public ModelAndView personList(Model model) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("users");
         model.addAttribute("users", users);
         return modelAndView;
     }
-    @RequestMapping(value = {"/add"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/add"})
     public ModelAndView showAddPersonPage(Model model) {
         ModelAndView modelAndView = new ModelAndView("add");
         UserForm userForm = new UserForm();
@@ -50,7 +49,7 @@ public class MainController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/add"}, method = RequestMethod.POST)
+    @PostMapping(value = {"/add"})
     public ModelAndView savePerson(Model model, @ModelAttribute("userForm") UserForm userForm) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("users");
